@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#080a09">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Diet Tracker">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="description" content="Track daily meals, calories, macros, water, steps, and photo estimates. 食事、カロリー、PFC、水分、歩数、写真メモを記録できます。">
+    <title>Diet Tracker Pro</title>
+    <link rel="manifest" href="./manifest.webmanifest">
+    <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png">
+    <link rel="icon" href="./assets/icon.svg" type="image/svg+xml">
+    <link rel="preload" href="./assets/hero-bodybuilder-back.jpg" as="image">
+    <link rel="stylesheet" href="./styles.css?v=25">
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="summary-rail" aria-labelledby="app-title">
+        <div class="hero-image" aria-hidden="true"></div>
+        <div class="rail-content">
+          <p class="eyebrow">Diet Tracker Pro</p>
+          <h1 id="app-title">Meal Log <span>食事記録</span></h1>
+          <p class="lead">Track the numbers, not the craving. 数字で淡々と管理。</p>
+
+          <form class="target-block" id="goalForm" aria-label="Daily calorie limit / 1日の目標カロリー">
+            <label for="goalInput">Daily Limit / 1日の目標</label>
+            <div class="target-control">
+              <input id="goalInput" name="goalInput" type="text" inputmode="numeric" value="1800">
+              <span>kcal</span>
+              <button class="mini-button" type="submit">Apply / 反映</button>
+            </div>
+          </form>
+
+          <div class="calorie-meter" aria-label="Daily calorie progress / 1日のカロリー進捗">
+            <div class="meter-track">
+              <span id="calorieBar"></span>
+            </div>
+            <p class="total-row" id="totalRow">Total Calories / 総カロリー <strong><span id="calorieTotal">0</span> / <span id="calorieGoal">1800</span> kcal</strong></p>
+            <div class="basal-row" id="basalForm" aria-label="Daily burn guide / 基礎消費量の目安">
+              <label for="basalInput">Daily Burn Guide / 基礎消費量目安</label>
+              <div class="basal-control">
+                <input id="basalInput" name="basalInput" type="text" inputmode="numeric" value="1450">
+                <span>kcal</span>
+              </div>
+            </div>
+            <p class="net-row" id="limitBalanceRow"><span id="limitBalanceLabel">Remaining / 残り</span> <strong><span id="netCalories">1800</span> kcal</strong></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="workspace" aria-label="Meal tracking workspace / 食事記録ワークスペース">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Log / 記録</p>
+            <h2>Today / 今日</h2>
+          </div>
+          <div class="topbar-actions">
+            <span class="save-status" id="saveStatus" role="status">Saved on device / 端末に保存済み</span>
+            <button class="ghost-button" id="resetDay" type="button">Reset Day / この日をリセット</button>
+          </div>
+        </header>
+
+        <aside class="install-card" id="installCard" hidden>
+          <span>On iPhone, open Safari Share and add this to your Home Screen. iPhoneではSafariの共有からホーム画面に追加。</span>
+          <button type="button" id="dismissInstall">Close / 閉じる</button>
+        </aside>
+
+        <section class="date-panel" aria-label="Selected date calendar / 選択日のカレンダー">
+          <div class="date-controls">
+            <div class="selected-date-card">
+              <span>Selected Date / 選択日</span>
+              <strong id="selectedDateLabel">Apr 14, 2026</strong>
+              <label class="date-field compact-date-field">
+                Pick a date / 日付を選択
+                <div class="date-action-row">
+                  <input id="dateInput" type="date">
+                  <button class="mini-button" id="todayButton" type="button">Today / 今日</button>
+                </div>
+              </label>
+            </div>
+          </div>
+          <div class="calendar-shell">
+            <div class="calendar-head">
+              <div class="calendar-jump">
+                <button class="mini-button" id="prevYear" type="button">Prev Year / 前年</button>
+                <button class="mini-button" id="prevMonth" type="button">Prev Month / 前月</button>
+              </div>
+              <div class="calendar-title-group">
+                <strong id="calendarTitle">April 2026</strong>
+              </div>
+              <div class="calendar-jump">
+                <button class="mini-button" id="nextMonth" type="button">Next Month / 翌月</button>
+                <button class="mini-button" id="nextYear" type="button">Next Year / 翌年</button>
+              </div>
+            </div>
+            <div class="calendar-grid" id="calendarGrid" aria-label="Calendar / カレンダー"></div>
+          </div>
+        </section>
+
+        <section class="water-panel" aria-label="Selected date water intake / 選択日の水分量">
+          <div class="water-visual">
+            <div class="bottle-icon" aria-hidden="true">
+              <span id="waterFill"></span>
+            </div>
+            <div>
+              <p class="eyebrow">Water / 水分</p>
+              <h2>Water Intake / 水分量</h2>
+              <strong><span id="waterTotal">0</span> ml</strong>
+              <small id="waterDateLabel">Apr 14, 2026</small>
+            </div>
+          </div>
+          <form class="water-controls" id="waterForm">
+            <label>
+              Add Amount / 追加量
+              <input id="waterInput" type="text" inputmode="numeric" value="250">
+            </label>
+            <button class="mini-button" type="button" data-water-add="250">+250</button>
+            <button class="mini-button" type="button" data-water-add="500">+500</button>
+            <button class="primary-button water-save" type="submit">Add / 追加</button>
+            <button class="ghost-button water-reset" id="waterReset" type="button">Reset Water / 水分リセット</button>
+          </form>
+        </section>
+
+        <section class="activity-panel" aria-label="Selected date steps / 選択日の歩数">
+          <div class="activity-visual">
+            <div class="route-icon" aria-hidden="true">
+              <span></span>
+            </div>
+            <div>
+              <p class="eyebrow">Activity / 活動</p>
+              <h2>Steps / 歩数</h2>
+              <strong><span id="stepTotal">0</span> steps</strong>
+              <small id="activityDateLabel">Apr 14, 2026</small>
+            </div>
+          </div>
+          <form class="activity-controls" id="activityForm">
+            <label>
+              Steps / 歩数
+              <input id="stepsInput" type="text" inputmode="numeric" value="8000">
+            </label>
+            <button class="mini-button" type="button" data-steps-add="1000">+1000 steps</button>
+            <button class="mini-button" type="button" data-steps-add="5000">+5000 steps</button>
+            <button class="primary-button activity-save" type="submit">Save / 保存</button>
+            <button class="ghost-button activity-reset" id="activityReset" type="button">Reset Steps / 歩数リセット</button>
+          </form>
+        </section>
+
+        <section class="stats-grid" aria-label="Daily nutrition summary / 1日の栄養サマリー">
+          <article class="stat-card" id="calorieStatCard">
+            <span>Calories / カロリー</span>
+            <strong><span id="statCalories">0</span> kcal</strong>
+            <small class="stat-preview" id="statCaloriesDraft">Draft / 入力中 +250 kcal</small>
+          </article>
+          <article class="stat-card">
+            <span>Protein / たんぱく質</span>
+            <strong><span id="statProtein">0</span> g</strong>
+          </article>
+          <article class="stat-card">
+            <span>Carbs / 炭水化物</span>
+            <strong><span id="statCarbs">0</span> g</strong>
+          </article>
+          <article class="stat-card">
+            <span>Fat / 脂質</span>
+            <strong><span id="statFat">0</span> g</strong>
+          </article>
+        </section>
+
+        <section class="entry-panel" aria-labelledby="entry-title">
+          <div class="section-heading">
+            <p class="eyebrow">Input / 入力</p>
+            <h2 id="entry-title">Add a Meal / 食事を追加</h2>
+          </div>
+
+          <form class="meal-form" id="mealForm">
+            <label>
+              Meal Name / 食事名
+              <input id="mealName" name="mealName" type="text" placeholder="Optional / 任意" autocomplete="off" autocapitalize="none">
+            </label>
+
+            <label>
+              Meal Type / 区分
+              <select id="mealType" name="mealType">
+                <option value="Breakfast / 朝食">Breakfast / 朝食</option>
+                <option value="Lunch / 昼食">Lunch / 昼食</option>
+                <option value="Dinner / 夕食">Dinner / 夕食</option>
+                <option value="Snack / 間食">Snack / 間食</option>
+              </select>
+            </label>
+
+            <label>
+              kcal
+              <input id="calories" name="calories" type="text" inputmode="numeric" value="250" required>
+            </label>
+
+            <label>
+              Protein g / たんぱく質
+              <input id="protein" name="protein" type="text" inputmode="decimal" value="20">
+            </label>
+
+            <label>
+              Carbs g / 炭水化物
+              <input id="carbs" name="carbs" type="text" inputmode="decimal" value="8">
+            </label>
+
+            <label>
+              Fat g / 脂質
+              <input id="fat" name="fat" type="text" inputmode="decimal" value="6">
+            </label>
+
+            <button class="primary-button" type="submit">Save Meal / 保存</button>
+          </form>
+
+          <div class="screenshot-panel" id="screenshotPanel" tabindex="0" role="button" aria-label="Paste or choose a meal photo / 食事写真を貼り付けまたは選択">
+            <div class="shot-icon" aria-hidden="true"></div>
+            <div>
+              <strong>Meal Photo / 食事写真</strong>
+              <p id="screenshotStatus">Paste a photo here, or choose one from your device. 写真を貼り付けるか選択できます。</p>
+            </div>
+            <input id="mealImage" type="file" accept="image/*">
+            <button class="mini-button" id="chooseImage" type="button">Choose Photo / 写真を選択</button>
+            <button class="mini-button" id="clearImage" type="button" hidden>Remove Photo / 削除</button>
+          </div>
+          <div class="screenshot-preview" id="screenshotPreview" hidden>
+            <img id="screenshotImage" alt="Selected meal photo / 選択した食事写真">
+          </div>
+
+          <div class="estimate-panel" id="estimatePanel" aria-label="Photo-based estimate presets / 写真から選ぶ概算プリセット">
+            <div class="estimate-copy">
+              <p class="eyebrow">Estimate / 概算</p>
+              <h3>Photo Estimate / 写真から概算</h3>
+              <p id="estimateStatus">Pick the closest portion size after checking the photo. 写真を見て近い量を選んでください。</p>
+            </div>
+            <div class="estimate-options">
+              <button type="button" data-estimate-label="Light" data-estimate-calories="450" data-estimate-protein="22" data-estimate-carbs="50" data-estimate-fat="14">
+                <span>Light / 軽め</span>
+                <strong>450 kcal</strong>
+                <small>P22 C50 F14</small>
+              </button>
+              <button type="button" data-estimate-label="Standard" data-estimate-calories="650" data-estimate-protein="35" data-estimate-carbs="75" data-estimate-fat="23">
+                <span>Standard / 標準</span>
+                <strong>650 kcal</strong>
+                <small>P35 C75 F23</small>
+              </button>
+              <button type="button" data-estimate-label="Large" data-estimate-calories="850" data-estimate-protein="45" data-estimate-carbs="100" data-estimate-fat="30">
+                <span>Large / 多め</span>
+                <strong>850 kcal</strong>
+                <small>P45 C100 F30</small>
+              </button>
+              <button type="button" data-estimate-label="High Protein" data-estimate-calories="520" data-estimate-protein="45" data-estimate-carbs="35" data-estimate-fat="22">
+                <span>High Protein / 高たんぱく</span>
+                <strong>520 kcal</strong>
+                <small>P45 C35 F22</small>
+              </button>
+            </div>
+          </div>
+
+          <div class="adjustment-panel" id="adjustmentPanel" aria-label="Manual estimate adjustment / 概算の手動差分">
+            <div class="adjustment-copy">
+              <p class="eyebrow">Adjust / 差分</p>
+              <h3>Estimate Base / 概算反映値</h3>
+              <p id="adjustmentStatus">Photo estimate values fill kcal and PFC. Add a manual diff if needed. 概算値に足し引きしたい差分を入力できます。</p>
+            </div>
+            <div class="base-values" aria-label="Current estimate base / 現在の概算ベース">
+              <span>kcal <strong id="baseCalories">250</strong></span>
+              <span>P <strong id="baseProtein">20</strong>g</span>
+              <span>C <strong id="baseCarbs">8</strong>g</span>
+              <span>F <strong id="baseFat">6</strong>g</span>
+            </div>
+            <div class="adjustment-fields">
+              <label>
+                kcal diff / kcal差分
+                <input id="adjustCalories" type="text" inputmode="numeric" value="0">
+              </label>
+              <label>
+                P diff / P差分
+                <input id="adjustProtein" type="text" inputmode="decimal" value="0">
+              </label>
+              <label>
+                C diff / C差分
+                <input id="adjustCarbs" type="text" inputmode="decimal" value="0">
+              </label>
+              <label>
+                F diff / F差分
+                <input id="adjustFat" type="text" inputmode="decimal" value="0">
+              </label>
+            </div>
+          </div>
+
+          <div class="draft-panel" aria-label="Draft macro balance / 入力中のPFCバランス">
+            <div>
+              <p class="eyebrow">Preview / 確認</p>
+              <h3>Macro Balance / PFCバランス</h3>
+              <strong><span id="draftCalories">250</span> kcal</strong>
+            </div>
+            <div class="pfc-bars">
+              <div class="pfc-row">
+                <span>P</span>
+                <div class="pfc-track"><span id="proteinBar"></span></div>
+                <strong id="proteinRatio">20g / 59%</strong>
+              </div>
+              <div class="pfc-row">
+                <span>F</span>
+                <div class="pfc-track"><span id="fatBar"></span></div>
+                <strong id="fatRatio">6g / 40%</strong>
+              </div>
+              <div class="pfc-row">
+                <span>C</span>
+                <div class="pfc-track"><span id="carbBar"></span></div>
+                <strong id="carbRatio">8g / 9%</strong>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="history-panel" aria-labelledby="history-title">
+          <div class="section-heading">
+            <p class="eyebrow">History / 履歴</p>
+            <h2 id="history-title">Selected Date History / 選択日の履歴</h2>
+          </div>
+          <div class="empty-state" id="emptyState">
+            <strong>No meals yet / まだ記録がありません</strong>
+            <p>Save your first meal and it will appear here. 食事を保存するとここに表示されます。</p>
+          </div>
+          <ul class="meal-list" id="mealList" aria-live="polite"></ul>
+        </section>
+      </section>
+    </main>
+
+    <dialog class="detail-dialog" id="detailDialog">
+      <form method="dialog">
+        <button class="dialog-close" aria-label="Close / 閉じる">Close / 閉じる</button>
+      </form>
+      <div id="detailContent"></div>
+    </dialog>
+
+    <script src="./app.js?v=25"></script>
+  </body>
+</html>
