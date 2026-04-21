@@ -18,6 +18,9 @@ const calorieBar = document.querySelector("#calorieBar");
 const saveStatus = document.querySelector("#saveStatus");
 const installCard = document.querySelector("#installCard");
 const dismissInstall = document.querySelector("#dismissInstall");
+const installAction = document.querySelector("#installAction");
+const installTitle = document.querySelector("#installTitle");
+const installMessage = document.querySelector("#installMessage");
 const calendarGrid = document.querySelector("#calendarGrid");
 const calendarTitle = document.querySelector("#calendarTitle");
 const selectedDateLabel = document.querySelector("#selectedDateLabel");
@@ -108,6 +111,7 @@ let basalCalories = loadBasal();
 let selectedDate = getTodayKey();
 let visibleMonth = selectedDate.slice(0, 7);
 let pendingImage = null;
+let deferredInstallPrompt = null;
 let estimateBase = {
   calories: 250,
   protein: 20,
@@ -121,12 +125,13 @@ fields.date.value = selectedDate;
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./service-worker.js?v=25").catch(() => {
+    navigator.serviceWorker.register("./service-worker.js?v=26").catch(() => {
       saveStatus.textContent = "Saved in browser / ブラウザに保存";
     });
   });
 }
 
+setupAppShellMode();
 setupInstallHint();
 setupScreenshotInput();
 setupEstimateButtons();
@@ -372,8 +377,39 @@ function flashSaveStatus(message = "Saved / 保存済み") {
   saveStatus.textContent = message;
   window.clearTimeout(flashSaveStatus.timer);
   flashSaveStatus.timer = window.setTimeout(() => {
-    saveStatus.textContent = "Saved on device / 端末に保存済み";
+    syncSaveStatus();
   }, 1400);
+}
+
+function isStandaloneMode() {
+  return Boolean(window.navigator.standalone) || window.matchMedia("(display-mode: standalone)").matches;
+}
+
+function syncSaveStatus() {
+  saveStatus.textContent = navigator.onLine
+    ? "Saved on device / 端末に保存済み"
+    : "Offline mode / オフライン利用中";
+}
+
+function applyShellClasses() {
+  const standalone = isStandaloneMode();
+  document.body.classList.toggle("is-standalone", standalone);
+  document.body.classList.toggle("is-ios", /iphone|ipad|ipod/i.test(navigator.userAgent));
+  document.body.classList.toggle("is-offline", !navigator.onLine);
+  syncSaveStatus();
+}
+
+function setupAppShellMode() {
+  applyShellClasses();
+  window.addEventListener("online", applyShellClasses);
+  window.addEventListener("offline", applyShellClasses);
+
+  const standaloneMedia = window.matchMedia("(display-mode: standalone)");
+  if (typeof standaloneMedia.addEventListener === "function") {
+    standaloneMedia.addEventListener("change", applyShellClasses);
+  } else if (typeof standaloneMedia.addListener === "function") {
+    standaloneMedia.addListener(applyShellClasses);
+  }
 }
 
 function getDraftMeal() {
@@ -1013,11 +1049,66 @@ function openMealDetail(meal) {
 
 function setupInstallHint() {
   const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent);
-  const isStandalone = window.navigator.standalone || window.matchMedia("(display-mode: standalone)").matches;
+  const isStandalone = isStandaloneMode();
   const dismissed = localStorage.getItem("diet-tracker-pro-install-dismissed") === "true";
 
-  if (isIos && !isStandalone && !dismissed) {
+  function renderInstallHint() {
+    const hasPrompt = Boolean(deferredInstallPrompt);
+    const nextStandalone = isStandaloneMode();
+    document.body.classList.toggle("is-standalone", nextStandalone);
+
+    if (nextStandalone || dismissed || (!isIos && !hasPrompt)) {
+      installCard.hidden = true;
+      return;
+    }
+
     installCard.hidden = false;
+    installAction.hidden = !hasPrompt;
+
+    if (isIos) {
+      installTitle.textContent = "Install on iPhone / iPhoneに追加";
+      installMessage.textContent = "Open this in Safari, tap Share, then Add to Home Screen. Safariで開いて共有からホーム画面に追加してください。";
+      return;
+    }
+
+    if (hasPrompt) {
+      installTitle.textContent = "Install Web App / Webアプリ化";
+      installMessage.textContent = "Install this tracker for full-screen launch and offline access. フルスクリーン起動とオフライン利用のためインストールできます。";
+      return;
+    }
+
+    installTitle.textContent = "Use on iPhone / iPhoneで使う";
+    installMessage.textContent = "Open the hosted URL in Safari on your iPhone, then add it to the Home Screen. iPhoneのSafariでURLを開いてホーム画面に追加してください。";
+  }
+
+  renderInstallHint();
+
+  window.addEventListener("beforeinstallprompt", (event) => {
+    event.preventDefault();
+    deferredInstallPrompt = event;
+    renderInstallHint();
+  });
+
+  window.addEventListener("appinstalled", () => {
+    deferredInstallPrompt = null;
+    installCard.hidden = true;
+    applyShellClasses();
+  });
+
+  if (installAction) {
+    installAction.addEventListener("click", async () => {
+      if (!deferredInstallPrompt) {
+        return;
+      }
+      deferredInstallPrompt.prompt();
+      try {
+        await deferredInstallPrompt.userChoice;
+      } catch {
+        // The user can dismiss the prompt without breaking the app.
+      }
+      deferredInstallPrompt = null;
+      renderInstallHint();
+    });
   }
 
   dismissInstall.addEventListener("click", () => {

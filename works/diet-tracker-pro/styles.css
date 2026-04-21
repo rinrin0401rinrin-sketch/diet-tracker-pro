@@ -345,6 +345,11 @@ h2 {
   line-height: 1.25;
 }
 
+.is-offline .save-status {
+  color: #ffd4dd;
+  border-color: rgba(255, 95, 125, 0.42);
+}
+
 .install-card {
   display: flex;
   align-items: center;
@@ -357,17 +362,48 @@ h2 {
   color: var(--muted);
 }
 
+.install-copy {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+.install-copy strong {
+  color: var(--text);
+  font-size: 0.98rem;
+}
+
+.install-copy p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.install-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+}
+
 .install-card[hidden] {
   display: none;
 }
 
 .install-card button {
   min-height: 36px;
+  min-width: 0;
+  padding: 0 14px;
   border: 1px solid var(--line-strong);
   border-radius: var(--radius);
   background: var(--panel-2);
   color: var(--text);
   font-weight: 800;
+}
+
+.install-button {
+  box-shadow:
+    0 5px 0 rgba(0, 0, 0, 0.42),
+    0 14px 28px rgba(0, 0, 0, 0.28);
 }
 
 .date-panel {
@@ -1437,6 +1473,11 @@ select:focus {
     min-height: 400px;
   }
 
+  .is-standalone .summary-rail,
+  .is-standalone .rail-content {
+    min-height: 280px;
+  }
+
   .meal-form {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1490,6 +1531,16 @@ select:focus {
   .install-card {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .install-actions {
+    width: 100%;
+    justify-content: stretch;
+    flex-direction: column;
+  }
+
+  .install-actions button {
+    width: 100%;
   }
 
   .date-panel {
@@ -1597,6 +1648,30 @@ select:focus {
   .detail-button,
   .image-detail-button,
   .delete-button {
+    width: 100%;
+  }
+
+  .is-standalone .summary-rail,
+  .is-standalone .rail-content {
+    min-height: 230px;
+  }
+
+  .is-standalone .rail-content {
+    justify-content: flex-start;
+  }
+
+  .is-standalone h1 {
+    font-size: 2.2rem;
+  }
+
+  .is-standalone .lead {
+    max-width: none;
+    margin-bottom: 18px;
+    font-size: 0.96rem;
+  }
+
+  .is-standalone .target-block,
+  .is-standalone .calorie-meter {
     width: 100%;
   }
 }

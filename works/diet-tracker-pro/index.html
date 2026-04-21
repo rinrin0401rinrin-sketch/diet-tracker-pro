@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="theme-color" content="#080a09">
+    <meta name="application-name" content="Diet Tracker Pro">
+    <meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Diet Tracker">
@@ -14,7 +16,7 @@
     <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png">
     <link rel="icon" href="./assets/icon.svg" type="image/svg+xml">
     <link rel="preload" href="./assets/hero-bodybuilder-back.jpg" as="image">
-    <link rel="stylesheet" href="./styles.css?v=25">
+    <link rel="stylesheet" href="./styles.css?v=26">
   </head>
   <body>
     <main class="app-shell">
@@ -64,8 +66,14 @@
         </header>
 
         <aside class="install-card" id="installCard" hidden>
-          <span>On iPhone, open Safari Share and add this to your Home Screen. iPhoneではSafariの共有からホーム画面に追加。</span>
-          <button type="button" id="dismissInstall">Close / 閉じる</button>
+          <div class="install-copy">
+            <strong id="installTitle">Install as App / アプリ化</strong>
+            <p id="installMessage">Open this in Safari, tap Share, and choose Add to Home Screen. Safariで開いて共有からホーム画面に追加してください。</p>
+          </div>
+          <div class="install-actions">
+            <button type="button" class="primary-button install-button" id="installAction" hidden>Install / 追加</button>
+            <button type="button" id="dismissInstall">Close / 閉じる</button>
+          </div>
         </aside>
 
         <section class="date-panel" aria-label="Selected date calendar / 選択日のカレンダー">
@@ -336,6 +344,6 @@
       <div id="detailContent"></div>
     </dialog>
 
-    <script src="./app.js?v=25"></script>
+    <script src="./app.js?v=26"></script>
   </body>
 </html>

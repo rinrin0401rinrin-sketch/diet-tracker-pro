@@ -1,13 +1,18 @@
 {
+  "id": "./",
   "name": "Diet Tracker Pro",
   "short_name": "Diet Tracker",
   "description": "Daily meal and PFC tracker.",
-  "start_url": "./index.html",
+  "lang": "en",
+  "dir": "ltr",
+  "start_url": "./?source=pwa",
   "scope": "./",
+  "display_override": ["standalone", "minimal-ui"],
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#080a09",
   "theme_color": "#080a09",
+  "categories": ["health", "fitness", "lifestyle", "productivity"],
   "icons": [
     {
       "src": "./assets/icon-192.png",

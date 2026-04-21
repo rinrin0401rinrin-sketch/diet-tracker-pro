@@ -1,6 +1,7 @@
-const CACHE_NAME = "diet-tracker-pro-v25";
+const CACHE_NAME = "diet-tracker-pro-v26";
 const APP_SHELL = [
   "./",
+  "./?source=pwa",
   "./index.html",
   "./styles.css",
   "./app.js",
@@ -38,6 +39,22 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
+  if (event.request.mode === "navigate") {
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          const copy = response.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put("./index.html", copy));
+          return response;
+        })
+        .catch(async () => {
+          const cached = await caches.match("./index.html", { ignoreSearch: true });
+          return cached || caches.match("./");
+        })
+    );
+    return;
+  }
+
   event.respondWith(
     fetch(event.request)
       .then((response) => {
@@ -45,6 +62,6 @@ self.addEventListener("fetch", (event) => {
         caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
         return response;
       })
-      .catch(() => caches.match(event.request))
+      .catch(() => caches.match(event.request, { ignoreSearch: true }))
   );
 });
