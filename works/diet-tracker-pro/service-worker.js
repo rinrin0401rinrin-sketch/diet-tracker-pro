@@ -1,10 +1,10 @@
-const CACHE_NAME = "diet-tracker-pro-v26";
+const CACHE_NAME = "diet-tracker-pro-v27";
 const APP_SHELL = [
   "./",
   "./?source=pwa",
   "./index.html",
-  "./styles.css",
-  "./app.js",
+  "./styles.css?v=27",
+  "./app.js?v=27",
   "./manifest.webmanifest",
   "./assets/hero-bodybuilder-back.jpg",
   "./assets/icon.svg",
@@ -15,20 +15,14 @@ const APP_SHELL = [
 ];
 
 self.addEventListener("install", (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL))
-  );
+  event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)));
   self.skipWaiting();
 });
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((names) =>
-      Promise.all(
-        names
-          .filter((name) => name !== CACHE_NAME)
-          .map((name) => caches.delete(name))
-      )
+      Promise.all(names.filter((name) => name !== CACHE_NAME).map((name) => caches.delete(name)))
     )
   );
   self.clients.claim();

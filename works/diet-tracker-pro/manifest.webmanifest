@@ -2,7 +2,7 @@
   "id": "./",
   "name": "Diet Tracker Pro",
   "short_name": "Diet Tracker",
-  "description": "Daily meal and PFC tracker.",
+  "description": "A focused daily tracker for calendar, calories, steps, and water.",
   "lang": "en",
   "dir": "ltr",
   "start_url": "./?source=pwa",
@@ -10,9 +10,9 @@
   "display_override": ["standalone", "minimal-ui"],
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#080a09",
-  "theme_color": "#080a09",
-  "categories": ["health", "fitness", "lifestyle", "productivity"],
+  "background_color": "#090b0d",
+  "theme_color": "#090b0d",
+  "categories": ["health", "fitness", "lifestyle"],
   "icons": [
     {
       "src": "./assets/icon-192.png",
