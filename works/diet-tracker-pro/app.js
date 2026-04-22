@@ -30,6 +30,7 @@ const installAction = document.querySelector("#installAction");
 const dismissInstall = document.querySelector("#dismissInstall");
 const installTitle = document.querySelector("#installTitle");
 const installMessage = document.querySelector("#installMessage");
+const colorFlipButtons = document.querySelectorAll(".primary-button, .ghost-button");
 
 let entries = loadEntries();
 let selectedDate = getTodayKey();
@@ -38,7 +39,7 @@ let deferredInstallPrompt = null;
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./service-worker.js?v=27").catch(() => {
+    navigator.serviceWorker.register("./service-worker.js?v=29").catch(() => {
       saveStatus.textContent = "Saved in browser";
     });
   });
@@ -164,6 +165,8 @@ function resetSelectedDay() {
 }
 
 function setupEvents() {
+  setupButtonColorFlip();
+
   dateInput.addEventListener("change", () => {
     if (!dateInput.value) {
       return;
@@ -220,6 +223,14 @@ function setupEvents() {
 
   [caloriesInput, stepsInput, waterInput].forEach((field) => {
     field.addEventListener("change", () => normalizeNumericField(field, false));
+  });
+}
+
+function setupButtonColorFlip() {
+  colorFlipButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      button.classList.toggle("is-color-inverted");
+    });
   });
 }
 

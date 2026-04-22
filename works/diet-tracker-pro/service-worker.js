@@ -1,10 +1,10 @@
-const CACHE_NAME = "diet-tracker-pro-v27";
+const CACHE_NAME = "diet-tracker-pro-v29";
 const APP_SHELL = [
   "./",
   "./?source=pwa",
   "./index.html",
-  "./styles.css?v=27",
-  "./app.js?v=27",
+  "./styles.css?v=29",
+  "./app.js?v=29",
   "./manifest.webmanifest",
   "./assets/hero-bodybuilder-back.jpg",
   "./assets/icon.svg",

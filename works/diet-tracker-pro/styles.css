@@ -274,26 +274,46 @@ input:focus {
 .ghost-button {
   min-height: 52px;
   padding: 0 16px;
+  border: 1px solid var(--button-border);
+  background: var(--button-bg);
+  color: var(--button-text);
   border-radius: var(--radius);
   font-weight: 800;
   line-height: 1.15;
-  transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease, border-color 120ms ease;
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease,
+    background 120ms ease,
+    border-color 120ms ease,
+    color 120ms ease;
 }
 
 .primary-button {
-  border: 1px solid #ddffa2;
-  background: var(--lime);
-  color: #10140f;
+  --button-bg: var(--lime);
+  --button-border: #ddffa2;
+  --button-text: #10140f;
   box-shadow:
     0 5px 0 rgba(0, 0, 0, 0.42),
     0 14px 28px rgba(0, 0, 0, 0.24);
 }
 
 .ghost-button {
-  border: 1px solid var(--line-strong);
-  background: var(--panel-strong);
-  color: var(--text);
+  --button-bg: var(--panel-strong);
+  --button-border: var(--line-strong);
+  --button-text: var(--text);
   box-shadow: 0 4px 0 rgba(0, 0, 0, 0.3);
+}
+
+.primary-button.is-color-inverted {
+  --button-bg: #111518;
+  --button-border: var(--lime);
+  --button-text: var(--lime);
+}
+
+.ghost-button.is-color-inverted {
+  --button-bg: var(--text);
+  --button-border: var(--text);
+  --button-text: #10140f;
 }
 
 .primary-button:hover,
@@ -301,9 +321,20 @@ input:focus {
   background: #c2ff5a;
 }
 
+.primary-button.is-color-inverted:hover,
+.primary-button.is-color-inverted:focus-visible {
+  background: #1a2316;
+}
+
 .ghost-button:hover,
 .ghost-button:focus-visible {
   border-color: var(--cyan);
+}
+
+.ghost-button.is-color-inverted:hover,
+.ghost-button.is-color-inverted:focus-visible {
+  background: #d7dde1;
+  border-color: #d7dde1;
 }
 
 .primary-button:active,
@@ -349,13 +380,15 @@ input:focus {
 
 .calendar-day {
   display: grid;
-  align-content: space-between;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  align-content: stretch;
   gap: 12px;
   padding: 12px 10px 10px;
   border: 1px solid var(--line);
   background: #0c1012;
   color: var(--text);
   text-align: left;
+  overflow: hidden;
 }
 
 .calendar-day.today {
@@ -375,10 +408,14 @@ input:focus {
 .calendar-markers {
   display: flex;
   align-items: center;
+  align-self: end;
+  max-width: 100%;
+  flex-wrap: wrap;
   gap: 6px;
 }
 
 .marker {
+  flex: 0 0 auto;
   width: 8px;
   height: 8px;
   border-radius: 999px;
@@ -513,6 +550,15 @@ input:focus {
   .calendar-day {
     min-height: 66px;
     gap: 8px;
+  }
+
+  .calendar-markers {
+    gap: 4px;
+  }
+
+  .marker {
+    width: 7px;
+    height: 7px;
   }
 
   .weekday-row span {
