@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#050608">
+    <title>Diet Tracker Pro Cache Reset</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      body {
+        display: grid;
+        min-height: 100svh;
+        place-items: center;
+        margin: 0;
+        padding: 24px;
+        background: radial-gradient(circle at 70% 10%, rgba(157, 239, 255, 0.16), transparent 28rem), #050608;
+        color: #f8fbff;
+      }
+
+      main {
+        display: grid;
+        width: min(520px, 100%);
+        gap: 18px;
+        padding: 24px;
+        border: 1px solid rgba(248, 251, 255, 0.16);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.08);
+        box-shadow: 0 24px 72px rgba(0, 0, 0, 0.42);
+      }
+
+      h1,
+      p {
+        margin: 0;
+      }
+
+      p {
+        color: #a9b3bd;
+        line-height: 1.7;
+      }
+
+      a {
+        display: inline-grid;
+        min-height: 52px;
+        place-items: center;
+        border-radius: 999px;
+        background: linear-gradient(135deg, #ffffff, #9defff 48%, #f0d39b);
+        color: #061015;
+        font-weight: 800;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>キャッシュをリセット中</h1>
+      <p id="status">Service Workerと古いキャッシュを削除しています。</p>
+      <a id="nextLink" href="./lp-concepts/?fresh=1">LPを見る</a>
+    </main>
+    <script>
+      const statusText = document.querySelector("#status");
+      const nextLink = document.querySelector("#nextLink");
+
+      async function clearAppCache() {
+        if ("serviceWorker" in navigator) {
+          const registrations = await navigator.serviceWorker.getRegistrations();
+          await Promise.all(registrations.map((registration) => registration.unregister()));
+        }
+
+        if ("caches" in window) {
+          const names = await caches.keys();
+          await Promise.all(names.map((name) => caches.delete(name)));
+        }
+
+        statusText.textContent = "リセット完了。下のボタンでLPへ戻れます。";
+        nextLink.focus();
+      }
+
+      clearAppCache().catch(() => {
+        statusText.textContent = "自動リセットに失敗しました。下のボタンでLPへ戻って再読み込みしてください。";
+      });
+    </script>
+  </body>
+</html>

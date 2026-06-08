@@ -34,7 +34,7 @@ let deferredInstallPrompt = null;
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./service-worker.js?v=29").catch(() => {
+    navigator.serviceWorker.register("./service-worker.js?v=1").catch(() => {
       saveStatus.textContent = "Saved in browser";
     });
   });

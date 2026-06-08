@@ -1,18 +1,11 @@
-const CACHE_NAME = "diet-tracker-pro-v29";
+const CACHE_NAME = "diet-tracker-pro-pages-app-v1";
 const APP_SHELL = [
   "./",
   "./?source=pwa",
   "./index.html",
-  "./clear-cache.html",
-  "./styles.css?v=29",
-  "./app.js?v=29",
+  "./styles.css?v=1",
+  "./app.js?v=1",
   "./manifest.webmanifest",
-  "./lp-concepts/",
-  "./lp-concepts/index.html",
-  "./lp-concepts/styles.css",
-  "./lp-concepts/assets/apple-luxury-wide.png",
-  "./lp-concepts/assets/apple-luxury-mobile.png",
-  "./lp-concepts/assets/apple-luxury-controls.png",
   "./assets/apple-luxury-wide.png",
   "./assets/apple-luxury-mobile.png",
   "./assets/apple-luxury-controls.png",
@@ -31,7 +24,7 @@ self.addEventListener("install", (event) => {
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((names) =>
-      Promise.all(names.filter((name) => name !== CACHE_NAME).map((name) => caches.delete(name)))
+      Promise.all(names.filter((name) => name.startsWith("diet-tracker-pro-") && name !== CACHE_NAME).map((name) => caches.delete(name)))
     )
   );
   self.clients.claim();

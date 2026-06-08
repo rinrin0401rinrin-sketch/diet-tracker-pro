@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+  <title id="title">Diet Tracker Pro</title>
+  <rect width="512" height="512" rx="72" fill="#080a09"/>
+  <rect x="52" y="52" width="408" height="408" rx="48" fill="#101411" stroke="#3d493f" stroke-width="10"/>
+  <path d="M126 327h260" stroke="#74f4ee" stroke-width="30" stroke-linecap="round"/>
+  <path d="M126 382h176" stroke="#a7f43d" stroke-width="30" stroke-linecap="round"/>
+  <path d="M136 145h240" stroke="#eff6f1" stroke-width="28" stroke-linecap="round"/>
+  <path d="M136 206h170" stroke="#9aa79d" stroke-width="28" stroke-linecap="round"/>
+  <circle cx="368" cy="208" r="34" fill="#74f4ee"/>
+</svg>

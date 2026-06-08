@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#050608">
+    <meta name="description" content="Diet Tracker Pro is an iPhone-first web app for recording daily calories and water.">
+    <meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
+    <title>Diet Tracker Pro | 今日何食べた？</title>
+    <link rel="preload" href="./assets/apple-luxury-mobile.png" as="image" media="(max-width: 720px)">
+    <link rel="preload" href="./assets/apple-luxury-controls.png" as="image" media="(min-width: 721px)">
+    <link rel="stylesheet" href="./styles.css?v=1">
+  </head>
+  <body>
+    <header class="topbar" aria-label="Site navigation">
+      <a class="brand" href="./" aria-label="Diet Tracker Pro home">
+        <span class="brand-dot"></span>
+        <span>Diet Tracker Pro</span>
+      </a>
+      <nav class="nav-pill" aria-label="Primary">
+        <a href="#details">Details</a>
+        <a href="./app/">App</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <picture class="hero-art" aria-hidden="true">
+          <source media="(max-width: 720px)" srcset="./assets/apple-luxury-mobile.png">
+          <img src="./assets/apple-luxury-controls.png" alt="">
+        </picture>
+        <div class="hero-veil" aria-hidden="true"></div>
+
+        <div class="hero-copy">
+          <p class="kicker">Calories / Water / iPhone PWA</p>
+          <h1 id="hero-title">
+            <span>今日何食べた？</span>
+            <small>What did you eat today?</small>
+          </h1>
+          <p class="lead">今日の総カロリーと水分量だけを、片手で軽く記録。黒ガラスとチタンの余白で、毎日の入力をiPhoneに映える習慣へ。</p>
+          <div class="cta-row">
+            <a class="orb-cta" href="./app/"><span>記録をはじめる</span></a>
+            <a class="slit-cta" href="#details"><span>見どころ</span></a>
+          </div>
+        </div>
+
+        <div class="signal-list" id="details" aria-label="Feature summary">
+          <article>
+            <span>01</span>
+            <strong>Calories</strong>
+            <p>今日の総量だけを保存。</p>
+          </article>
+          <article>
+            <span>02</span>
+            <strong>Water</strong>
+            <p>250ml / 500mlを即加算。</p>
+          </article>
+          <article>
+            <span>03</span>
+            <strong>iPhone PWA</strong>
+            <p>ホーム画面からすぐ起動。</p>
+          </article>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
