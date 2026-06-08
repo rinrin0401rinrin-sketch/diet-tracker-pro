@@ -207,6 +207,7 @@ h1 {
 
 .save-status,
 .install-card,
+.privacy-card,
 .calendar-panel,
 .metric-card {
   border: 1px solid var(--line);
@@ -245,6 +246,25 @@ h1 {
 
 .install-card[hidden] {
   display: none;
+}
+
+.privacy-card {
+  display: grid;
+  gap: 6px;
+  padding: 14px 16px;
+  margin-bottom: 18px;
+}
+
+.privacy-card strong {
+  color: var(--text);
+  font-size: 0.94rem;
+}
+
+.privacy-card p {
+  margin-bottom: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
 }
 
 .install-copy {
@@ -409,6 +429,11 @@ input:focus {
 
 .aqua-chip {
   color: var(--aqua);
+}
+
+.danger-button {
+  color: #ffdbe2;
+  border-color: rgba(255, 121, 144, 0.36);
 }
 
 .primary-button:hover,

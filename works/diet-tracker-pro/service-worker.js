@@ -1,11 +1,11 @@
-const CACHE_NAME = "diet-tracker-pro-v30";
+const CACHE_NAME = "diet-tracker-pro-v31";
 const APP_SHELL = [
   "./",
   "./?source=pwa",
   "./index.html",
   "./clear-cache.html",
-  "./styles.css?v=29",
-  "./app.js?v=29",
+  "./styles.css?v=31",
+  "./app.js?v=31",
   "./manifest.webmanifest",
   "./lp-concepts/",
   "./lp-concepts/index.html",
@@ -23,6 +23,30 @@ const APP_SHELL = [
   "./assets/apple-touch-icon.png",
   "./assets/apple-touch-icon-v2.png"
 ];
+const APP_SHELL_URLS = new Set(APP_SHELL.map((entry) => new URL(entry, self.registration.scope).href));
+
+function isAppShellRequest(request) {
+  if (request.method !== "GET") {
+    return false;
+  }
+
+  const url = new URL(request.url);
+  return url.origin === self.location.origin && APP_SHELL_URLS.has(url.href);
+}
+
+function isCacheableResponse(response) {
+  return response && response.ok && response.type === "basic";
+}
+
+async function cacheIfAppShell(request, response) {
+  if (!isAppShellRequest(request) || !isCacheableResponse(response)) {
+    return;
+  }
+
+  const copy = response.clone();
+  const cache = await caches.open(CACHE_NAME);
+  await cache.put(request, copy);
+}
 
 self.addEventListener("install", (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)));
@@ -32,7 +56,7 @@ self.addEventListener("install", (event) => {
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((names) =>
-      Promise.all(names.filter((name) => name !== CACHE_NAME).map((name) => caches.delete(name)))
+      Promise.all(names.filter((name) => name.startsWith("diet-tracker-pro-") && name !== CACHE_NAME).map((name) => caches.delete(name)))
     )
   );
   self.clients.claim();
@@ -47,8 +71,7 @@ self.addEventListener("fetch", (event) => {
     event.respondWith(
       fetch(event.request)
         .then((response) => {
-          const copy = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
+          cacheIfAppShell(event.request, response);
           return response;
         })
         .catch(async () => {
@@ -59,11 +82,14 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
+  if (!isAppShellRequest(event.request)) {
+    return;
+  }
+
   event.respondWith(
     fetch(event.request)
       .then((response) => {
-        const copy = response.clone();
-        caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
+        cacheIfAppShell(event.request, response);
         return response;
       })
       .catch(() => caches.match(event.request, { ignoreSearch: true }))

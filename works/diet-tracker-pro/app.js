@@ -13,6 +13,7 @@ const todayButton = document.querySelector("#todayButton");
 const prevMonth = document.querySelector("#prevMonth");
 const nextMonth = document.querySelector("#nextMonth");
 const resetDay = document.querySelector("#resetDay");
+const clearAllData = document.querySelector("#clearAllData");
 const calorieForm = document.querySelector("#calorieForm");
 const waterForm = document.querySelector("#waterForm");
 const caloriesValue = document.querySelector("#caloriesValue");
@@ -34,7 +35,7 @@ let deferredInstallPrompt = null;
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./service-worker.js?v=29").catch(() => {
+    navigator.serviceWorker.register("./service-worker.js?v=31").catch(() => {
       saveStatus.textContent = "Saved in browser";
     });
   });
@@ -159,6 +160,22 @@ function resetSelectedDay() {
   render();
 }
 
+function clearStoredAppData() {
+  const confirmed = window.confirm("Delete all Diet Tracker Pro records stored in this browser?");
+  if (!confirmed) {
+    return;
+  }
+
+  Object.keys(localStorage)
+    .filter((key) => key.startsWith("diet-tracker-pro-"))
+    .forEach((key) => localStorage.removeItem(key));
+  entries = {};
+  selectedDate = getTodayKey();
+  visibleMonth = selectedDate.slice(0, 7);
+  render();
+  flashSaveStatus("All local data cleared");
+}
+
 function setupEvents() {
   dateInput.addEventListener("change", () => {
     if (!dateInput.value) {
@@ -171,6 +188,7 @@ function setupEvents() {
   prevMonth.addEventListener("click", () => moveMonth(-1));
   nextMonth.addEventListener("click", () => moveMonth(1));
   resetDay.addEventListener("click", resetSelectedDay);
+  clearAllData.addEventListener("click", clearStoredAppData);
 
   calorieForm.addEventListener("submit", (event) => {
     event.preventDefault();

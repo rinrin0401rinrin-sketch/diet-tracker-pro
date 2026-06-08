@@ -52,8 +52,8 @@ For iPhone use, host this folder on an HTTPS service such as GitHub Pages, Netli
 ## Stitch Notes
 
 - Project: Diet Tracker Pro
-- Project ID: `18390116762672559302`
+- Project ID: redacted
 - Screen: Meal Log Screen
-- Screen ID: `aa40044d2ca043949f8d84f7cd753943`
+- Screen ID: redacted
 
 Stitch MCP tools and resources were not exposed in this session, so the Stitch screen `htmlCode.downloadUrl` and `screenshot.downloadUrl` could not be retrieved.

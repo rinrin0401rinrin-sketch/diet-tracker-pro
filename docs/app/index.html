@@ -16,7 +16,7 @@
     <link rel="apple-touch-icon" href="./assets/apple-touch-icon-v2.png">
     <link rel="icon" href="./assets/icon.svg" type="image/svg+xml">
     <link rel="preload" href="./assets/apple-luxury-mobile.png" as="image">
-    <link rel="stylesheet" href="./styles.css?v=1">
+    <link rel="stylesheet" href="./styles.css?v=2">
   </head>
   <body>
     <main class="app-shell">
@@ -42,6 +42,7 @@
           <div class="topbar-actions">
             <span class="save-status" id="saveStatus" role="status">Saved on this device</span>
             <button class="ghost-button" id="resetDay" type="button">Reset Day</button>
+            <button class="ghost-button danger-button" id="clearAllData" type="button">Clear All Data</button>
           </div>
         </header>
 
@@ -54,6 +55,11 @@
             <button class="primary-button install-button" id="installAction" type="button" hidden>Install</button>
             <button class="ghost-button" id="dismissInstall" type="button">Close</button>
           </div>
+        </aside>
+
+        <aside class="privacy-card" aria-label="Privacy note">
+          <strong>Private on this device</strong>
+          <p>記録はこのブラウザ内にだけ保存されます。共有端末では Clear All Data で削除できます。</p>
         </aside>
 
         <section class="metrics-grid" aria-label="Daily totals">
@@ -134,7 +140,7 @@
         </section>
       </div>
 
-      <script src="./app.js?v=1"></script>
+      <script src="./app.js?v=2"></script>
     </main>
   </body>
 </html>

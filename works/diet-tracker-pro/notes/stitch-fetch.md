@@ -3,9 +3,9 @@
 ## Requested Project
 
 - Title: Diet Tracker Pro
-- Project ID: `18390116762672559302`
+- Project ID: redacted
 - Screen: Meal Log Screen
-- Screen ID: `aa40044d2ca043949f8d84f7cd753943`
+- Screen ID: redacted
 
 ## Current Status
 
@@ -14,8 +14,8 @@ The local MCP resource list was empty in this session, and no Stitch MCP tools w
 ## Expected Fetch Flow When Stitch MCP Is Available
 
 1. Call the Stitch MCP `get_screen` tool with:
-   - `projectId`: `18390116762672559302`
-   - `screenId`: `aa40044d2ca043949f8d84f7cd753943`
+   - `projectId`: `<redacted-project-id>`
+   - `screenId`: `<redacted-screen-id>`
 2. Read the returned:
    - `htmlCode.downloadUrl`
    - `screenshot.downloadUrl`
