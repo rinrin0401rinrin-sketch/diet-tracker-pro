@@ -1,10 +1,35 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
   <title id="title">Diet Tracker Pro</title>
-  <rect width="512" height="512" rx="72" fill="#080a09"/>
-  <rect x="52" y="52" width="408" height="408" rx="48" fill="#101411" stroke="#3d493f" stroke-width="10"/>
-  <path d="M126 327h260" stroke="#74f4ee" stroke-width="30" stroke-linecap="round"/>
-  <path d="M126 382h176" stroke="#a7f43d" stroke-width="30" stroke-linecap="round"/>
-  <path d="M136 145h240" stroke="#eff6f1" stroke-width="28" stroke-linecap="round"/>
-  <path d="M136 206h170" stroke="#9aa79d" stroke-width="28" stroke-linecap="round"/>
-  <circle cx="368" cy="208" r="34" fill="#74f4ee"/>
+  <defs>
+    <linearGradient id="bg" x1="64" y1="48" x2="448" y2="480" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#171d22"/>
+      <stop offset=".55" stop-color="#050608"/>
+      <stop offset="1" stop-color="#0d1014"/>
+    </linearGradient>
+    <linearGradient id="card" x1="170" y1="150" x2="342" y2="360" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#171d22"/>
+      <stop offset="1" stop-color="#050608"/>
+    </linearGradient>
+    <linearGradient id="aqua" x1="200" y1="250" x2="314" y2="278" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#9defff"/>
+      <stop offset="1" stop-color="#aeb8ff"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="200" y1="306" x2="286" y2="334" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#f0d39b"/>
+      <stop offset="1" stop-color="#9defff"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <circle cx="154" cy="356" r="188" fill="#9defff" opacity=".13"/>
+  <circle cx="374" cy="130" r="196" fill="#f0d39b" opacity=".11"/>
+  <circle cx="256" cy="256" r="146" fill="none" stroke="#9defff" stroke-width="40" stroke-linecap="round" stroke-dasharray="138 760"/>
+  <circle cx="256" cy="256" r="146" fill="none" stroke="#f8fbff" stroke-width="40" stroke-linecap="round" stroke-dasharray="128 770" stroke-dashoffset="-150"/>
+  <circle cx="256" cy="256" r="146" fill="none" stroke="#f0d39b" stroke-width="40" stroke-linecap="round" stroke-dasharray="118 780" stroke-dashoffset="-305"/>
+  <circle cx="256" cy="256" r="146" fill="none" stroke="#aeb8ff" stroke-width="40" stroke-linecap="round" stroke-dasharray="126 770" stroke-dashoffset="-446"/>
+  <rect x="172" y="154" width="168" height="204" rx="62" fill="url(#card)" stroke="white" stroke-opacity=".16" stroke-width="3"/>
+  <path d="M206 200h100" stroke="#f8fbff" stroke-width="28" stroke-linecap="round"/>
+  <path d="M206 258h100" stroke="url(#aqua)" stroke-width="28" stroke-linecap="round"/>
+  <path d="M206 316h72" stroke="url(#gold)" stroke-width="28" stroke-linecap="round"/>
+  <circle cx="342" cy="316" r="25" fill="#9defff" stroke="white" stroke-opacity=".58" stroke-width="3"/>
+  <rect x="13" y="13" width="486" height="486" rx="106" fill="none" stroke="white" stroke-opacity=".09" stroke-width="9"/>
 </svg>

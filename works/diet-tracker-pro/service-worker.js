@@ -1,4 +1,4 @@
-const CACHE_NAME = "diet-tracker-pro-v29";
+const CACHE_NAME = "diet-tracker-pro-v30";
 const APP_SHELL = [
   "./",
   "./?source=pwa",
@@ -20,7 +20,8 @@ const APP_SHELL = [
   "./assets/icon-192.png",
   "./assets/icon-512.png",
   "./assets/icon-maskable-512.png",
-  "./assets/apple-touch-icon.png"
+  "./assets/apple-touch-icon.png",
+  "./assets/apple-touch-icon-v2.png"
 ];
 
 self.addEventListener("install", (event) => {
